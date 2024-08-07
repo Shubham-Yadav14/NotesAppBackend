@@ -73,11 +73,28 @@ const restoreTrash = async (req, res) => {
   }
 };
 
+const deleteTrash = async (req, res) => {
+  try {
+    const result = await Note.findByIdAndDelete(req.params.id);
+    if (!result) {
+      return res.status(404).send({ message: 'Note not found' });
+    }
+    console.log(result);
+    res.send({ message: 'Note deleted successfully', note: result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Something went wrong");
+  }
+};
+
+
+
 module.exports = {
   saveNote,
   findNote,
   updateNote,
   deleteNote,
   fetchTrash,
-  restoreTrash
+  restoreTrash,
+  deleteTrash
 };
